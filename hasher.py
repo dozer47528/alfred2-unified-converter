@@ -12,6 +12,7 @@ from model.number import Number
 from model.sha import SHA
 from model.string import String
 from model.the_uuid import TheUUID
+from model.ip_addr import IPAddr
 from workflow import Workflow, ICON_INFO
 
 __version__ = "1.2.7"
@@ -36,7 +37,8 @@ class Hasher:
             Number(),
             ASCII(),
             TheUUID(),
-            String()
+            String(),
+            IPAddr(),
         ]
         self.modelDict = dict()
         self.max_age = 60 * 60 * 24 * 365
