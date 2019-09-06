@@ -1,3 +1,5 @@
+import socket
+import struct
 from model.base_model import BaseModel
 from workflow.workflow import Item
 
@@ -8,14 +10,25 @@ class IPAddr(BaseModel):
         self.desc = u'IPv4 Address Converter'
 
     def convert(self, query):
-        v = IPAddr.ipaddr_aton(query)
-        return [Item(
-            title=self.name + ': ' + query,
-            subtitle=str(v),
-            arg=self.name + u' IPv4: ' + str(v),
-            valid=True,
-            icon=self.icon_path()
-        )]
+        try:
+            q = int(query)
+            v = IPAddr.ipaddr_ntoa(q)
+            return [Item(
+                title=self.name + ': ' + query,
+                subtitle=v,
+                arg=self.name + u' IPv4: ' + v,
+                valid=True,
+                icon=self.icon_path(),
+            )]
+        except:
+            v = IPAddr.ipaddr_aton(query)
+            return [Item(
+                title=self.name + ': ' + query,
+                subtitle=str(v),
+                arg=self.name + u' IPv4: ' + str(v),
+                valid=True,
+                icon=self.icon_path(),
+            )]
 
     @staticmethod
     def ipaddr_aton(ipaddr):
@@ -68,3 +81,10 @@ class IPAddr(BaseModel):
                 blk_count -= 1
                 bit_count = 0
         return sum
+
+    @staticmethod
+    def ipaddr_ntoa(int_ipaddr):
+        try:
+            return socket.inet_ntoa(struct.pack("!I", int_ipaddr))
+        except:
+            return '0.0.0.0'

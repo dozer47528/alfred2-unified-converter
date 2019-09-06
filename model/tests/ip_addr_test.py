@@ -8,6 +8,7 @@ def ip2int(addr):
     return struct.unpack("!I", socket.inet_aton(addr))[0]
 
 
+
 class TestCase(unittest.TestCase):
     def test_parse_regular(self):
         ipaddr = '192.168.0.1'
